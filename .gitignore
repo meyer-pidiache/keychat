@@ -1,0 +1,33 @@
+# Binaries
+cmd/keychat/keychat
+cmd/keychat/keychat.exe
+*.test
+*.out
+
+# Go
+vendor/
+
+# Node
+web/node_modules/
+web/dist/
+
+# SQLite
+*.db
+*.db-wal
+*.db-shm
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Env
+.env
+.env.local
+
+# Sisyphus evidence
+.sisyphus/
