@@ -58,7 +58,7 @@ func (fb *FreeBasicsBridge) handleSendForm(w http.ResponseWriter, r *http.Reques
 }
 
 func (fb *FreeBasicsBridge) renderForm(w http.ResponseWriter, r *http.Request) {
-	html := `<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><link rel="icon" href="/static/icons/keychat.svg" type="image/svg+xml"><title>Enviar Mensaje — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
+	html := `<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><title>Enviar Mensaje — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
 <a href="#main-content" class="skip-link">Saltar al contenido</a>
 <header class="site-header"><nav class="nav" aria-label="Principal"><a href="/" class="nav-logo">KeyChat</a><ul class="nav-links"><li><a href="/fb/send">Enviar</a></li><li><a href="/fb/receive">Recibir</a></li></ul></nav></header>
 <main id="main-content" class="main-content"><h1>Enviar Mensaje Cifrado</h1>
@@ -139,7 +139,7 @@ func (fb *FreeBasicsBridge) handlePostSend(w http.ResponseWriter, r *http.Reques
 func (fb *FreeBasicsBridge) handleReceive(w http.ResponseWriter, r *http.Request) {
 	pubkey := r.URL.Query().Get("pubkey")
 
-	html := fmt.Sprintf(`<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><link rel="icon" href="/static/icons/keychat.svg" type="image/svg+xml"><title>Recibir Mensajes — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
+	html := fmt.Sprintf(`<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><title>Recibir Mensajes — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
 <a href="#main-content" class="skip-link">Saltar al contenido</a>
 <header class="site-header"><nav class="nav" aria-label="Principal"><a href="/" class="nav-logo">KeyChat</a><ul class="nav-links"><li><a href="/fb/send">Enviar</a></li><li><a href="/fb/receive">Recibir</a></li></ul></nav></header>
 <main id="main-content" class="main-content"><h1>Recibir Mensajes</h1>
@@ -204,7 +204,7 @@ func (fb *FreeBasicsBridge) handleViewEvent(w http.ResponseWriter, r *http.Reque
 		content = "Evento no encontrado"
 	}
 
-	html := fmt.Sprintf(`<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><link rel="icon" href="/static/icons/keychat.svg" type="image/svg+xml"><title>Evento — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
+	html := fmt.Sprintf(`<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><title>Evento — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
 <a href="#main-content" class="skip-link">Saltar al contenido</a>
 <header class="site-header"><nav class="nav" aria-label="Principal"><a href="/" class="nav-logo">KeyChat</a><ul class="nav-links"><li><a href="/fb/send">Enviar</a></li><li><a href="/fb/receive">Recibir</a></li></ul></nav></header>
 <main id="main-content" class="main-content"><h1>Evento</h1>
@@ -228,7 +228,7 @@ func (fb *FreeBasicsBridge) handleSubmitEvent(w http.ResponseWriter, r *http.Req
 }
 
 func (fb *FreeBasicsBridge) handleConfirm(w http.ResponseWriter, r *http.Request) {
-	html := `<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><link rel="icon" href="/static/icons/keychat.svg" type="image/svg+xml"><title>Confirmación — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
+	html := `<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><title>Confirmación — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
 <a href="#main-content" class="skip-link">Saltar al contenido</a>
 <header class="site-header"><nav class="nav" aria-label="Principal"><a href="/" class="nav-logo">KeyChat</a><ul class="nav-links"><li><a href="/fb/send">Enviar</a></li><li><a href="/fb/receive">Recibir</a></li></ul></nav></header>
 <main id="main-content" class="main-content"><h1>Mensaje Enviado</h1>

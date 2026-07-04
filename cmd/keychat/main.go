@@ -77,7 +77,7 @@ func main() {
 		}
 		if bridge.IsFreeBasics(r) {
 			w.Header().Set("Content-Type", "text/html; charset=utf-8")
-			w.Write([]byte(`<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><link rel="icon" href="/static/icons/keychat.svg" type="image/svg+xml"><title>KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
+			w.Write([]byte(`<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><title>KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
 <a href="#main-content" class="skip-link">Saltar al contenido</a>
 <header class="site-header"><nav class="nav" aria-label="Principal"><a href="/" class="nav-logo">KeyChat</a><ul class="nav-links"><li><a href="/learn/crypto">Criptografía</a></li><li><a href="/learn/nostr">Nostr</a></li><li><a href="/learn/keys">Claves</a></li><li><a href="/learn/messaging">Mensajería</a></li><li><a href="/learn/architecture">Arquitectura</a></li><li><a href="/fb/send">Enviar</a></li><li><a href="/fb/receive">Recibir</a></li></ul></nav></header>
 <main id="main-content" class="main-content"><h1>KeyChat</h1>
