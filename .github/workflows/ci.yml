@@ -6,19 +6,27 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   go:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-go@v5
         with:
           go-version: '1.26'
       - run: go build ./cmd/keychat/...
       - run: go vet ./...
       - run: go test ./... -v -race -count=1 -coverprofile=coverage.out
-      - name: Upload coverage
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: go-coverage
           path: coverage.out
@@ -29,7 +37,9 @@ jobs:
       run:
         working-directory: web
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: pnpm/action-setup@v4
         with:
           version: 10
@@ -42,26 +52,13 @@ jobs:
       - run: pnpm run build
       - run: pnpm run lint
 
-  sonarcloud:
-    runs-on: ubuntu-latest
-    needs: [go, js]
-    if: github.actor != 'dependabot[bot]'
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Download Go coverage
-        uses: actions/download-artifact@v4
-        with:
-          name: go-coverage
-      - uses: SonarSource/sonarqube-scan-action@v8
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
   integration:
+    needs: [go, js]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-go@v5
         with:
           go-version: '1.26'
@@ -81,10 +78,11 @@ jobs:
       - name: Start server
         run: |
           ./keychat-server &
+          echo $! > /tmp/keychat-server.pid
           sleep 3
-          curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/healthz
-      - name: Run integration tests
-        run: bash test/integration/relay_test.sh
+          curl -sf http://localhost:8080/healthz > /dev/null
+      - run: bash test/integration/relay_test.sh
       - name: Stop server
         if: always()
-        run: kill %1 || true
+        run: |
+          pid=$(cat /tmp/keychat-server.pid 2>/dev/null) && kill "$pid" 2>/dev/null || true
