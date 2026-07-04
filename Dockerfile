@@ -1,9 +1,10 @@
 FROM node:22-alpine AS js-builder
 WORKDIR /build/web
-COPY web/package.json web/package-lock.json ./
-RUN npm ci
+RUN corepack enable && corepack prepare pnpm@latest --activate
+COPY web/package.json web/pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 COPY web/ ./
-RUN npm run build
+RUN pnpm run build
 
 FROM golang:1.26-alpine AS go-builder
 WORKDIR /build

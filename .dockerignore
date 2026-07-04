@@ -2,6 +2,7 @@
 .gitignore
 *.md
 Dockerfile
+compose*.yaml
 docker-compose.yml
 .env
 keychat.db

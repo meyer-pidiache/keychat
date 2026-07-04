@@ -1,5 +1,7 @@
 .PHONY: all build test lint run clean js-build js-dev js-lint docker-build docker-run
 
+.PHONY: all build test lint run clean js-build js-dev js-lint docker-dev docker-prod docker-build docker-run
+
 all: build
 
 # Go relay
@@ -21,17 +23,23 @@ clean:
 
 # JS client
 js-build:
-	cd web && npm run build
+	cd web && pnpm run build
 
 js-dev:
-	cd web && npm run dev
+	cd web && pnpm run dev
 
 js-lint:
-	cd web && npm run lint
+	cd web && pnpm run lint
 
 # Docker
+docker-dev:
+	docker compose -f compose.yaml -f compose.dev.yaml up --watch
+
+docker-prod:
+	docker compose -f compose.yaml -f compose.prod.yaml up -d
+
 docker-build:
-	docker compose build
+	docker compose -f compose.yaml -f compose.prod.yaml build
 
 docker-run:
-	docker compose up -d
+	docker compose -f compose.yaml -f compose.prod.yaml up -d

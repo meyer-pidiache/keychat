@@ -6,7 +6,7 @@ Thanks for your interest in KeyChat.
 
 - **Go** 1.26 or later. Install via [golang.org/dl](https://golang.org/dl/).
 - **Node.js** 22 or later. Install via [nodejs.org](https://nodejs.org/).
-- **npm** (ships with Node.js).
+- **pnpm** (install via `npm install -g pnpm` or enable `corepack`).
 
 ## Setup
 

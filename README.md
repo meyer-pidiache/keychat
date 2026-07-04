@@ -18,7 +18,7 @@ KeyChat serves two faces from a single Go server:
 
 - Go 1.26+
 - Node.js 22+
-- npm
+- pnpm (install via `npm install -g pnpm` or enable `corepack`)
 
 ### Build and run
 
@@ -26,6 +26,9 @@ KeyChat serves two faces from a single Go server:
 # Clone the repo
 git clone https://github.com/meyer-pidiache/keychat.git
 cd keychat
+
+# Install JS dependencies
+make js-dev
 
 # Build the JS frontend
 make js-build
@@ -39,10 +42,29 @@ make run
 
 Open http://localhost:8080 — the server auto-detects FreeBasics via the `X-IORG-FBS` header and serves the appropriate face.
 
-### Docker
+### Docker (multi-environment)
+
+KeyChat uses multiple Compose files for different environments. Docker is all you need — no Node.js or Go required.
 
 ```bash
-make docker-build && make docker-run
+# Development (hot reload with compose watch)
+make docker-dev
+
+# Production (optimized multi-stage build)
+make docker-prod
+
+# Build production image only
+make docker-build
+```
+
+Or use Compose directly:
+
+```bash
+# Development — live code changes without rebuild
+docker compose -f compose.yaml -f compose.dev.yaml up --watch
+
+# Production — clean build, healthchecks, resource limits
+docker compose -f compose.yaml -f compose.prod.yaml up -d
 ```
 
 ## Architecture
