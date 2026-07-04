@@ -1,12 +1,133 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="KeyChat — Cifrado asimétrico y mensajería Nostr offline" />
+    <link rel="manifest" href="/manifest.json" />
     <title>KeyChat</title>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <header class="site-header">
+      <nav class="nav" aria-label="Principal">
+        <a href="#home" class="nav-logo">KeyChat</a>
+        <ul class="nav-links">
+          <li><a href="#home" class="nav-link" data-view="home">Inicio</a></li>
+          <li><a href="#keys" class="nav-link" data-view="keys">Claves</a></li>
+          <li><a href="#contacts" class="nav-link" data-view="contacts">Contactos</a></li>
+          <li><a href="#compose" class="nav-link" data-view="compose">Cifrar</a></li>
+          <li><a href="#inbox" class="nav-link" data-view="inbox">Bandeja</a></li>
+          <li><a href="#history" class="nav-link" data-view="history">Historial</a></li>
+        </ul>
+        <span id="relay-status" class="relay-status disconnected">🔴 Relay</span>
+      </nav>
+    </header>
+
+    <main class="main-content">
+      <div id="view-home" class="view">
+        <h1>KeyChat</h1>
+        <p class="subtitle">Cifrado asimétrico offline y mensajería Nostr. Tus claves nunca salen de tu dispositivo.</p>
+        <div id="pubkey-badge" class="pubkey-badge hidden"></div>
+        <div class="action-buttons">
+          <button id="btn-generate" class="btn">Generar claves</button>
+          <a href="#keys" class="btn btn-secondary">Importar clave</a>
+          <a href="#contacts" class="btn btn-secondary">Contactos</a>
+          <a href="#compose" class="btn btn-secondary">Cifrar mensaje</a>
+          <a href="#inbox" class="btn btn-secondary">Descifrar</a>
+          <a href="/learn/crypto" class="btn btn-secondary" target="_blank">Aprender</a>
+        </div>
+        <section class="features">
+          <h2>Características</h2>
+          <ul>
+            <li>Generación de claves offline (secp256k1)</li>
+            <li>Cifrado NIP-44 (ChaCha20-Poly1305)</li>
+            <li>Mensajería NIP-17 (Gift Wrap)</li>
+            <li>Sin JavaScript necesario para FreeBasics</li>
+            <li>Historial local de mensajes</li>
+          </ul>
+        </section>
+      </div>
+
+      <div id="view-keys" class="view hidden">
+        <h1>Claves</h1>
+        <p>Tu par de claves se genera localmente en este navegador. Nunca se envía al servidor.</p>
+        <div class="key-field">
+          <label>Clave pública (compartir)</label>
+          <pre id="pubkey-display" class="key-display"></pre>
+          <button id="btn-copy-pubkey" class="btn btn-small">Copiar</button>
+        </div>
+        <div class="key-field">
+          <label>Clave privada (secreta — nunca compartir)</label>
+          <pre id="privkey-display" class="key-display"></pre>
+          <button id="btn-copy-privkey" class="btn btn-small">Copiar</button>
+        </div>
+        <hr />
+        <h2>Importar clave privada existente</h2>
+        <input type="text" id="import-hex" placeholder="Clave privada (64 hex)" pattern="[0-9a-fA-F]{64}" maxlength="64" class="input-full" />
+        <button id="btn-import-key" class="btn">Importar</button>
+        <hr />
+        <button id="btn-clear-keys" class="btn btn-danger">Eliminar claves</button>
+      </div>
+
+      <div id="view-contacts" class="view hidden">
+        <h1>Contactos</h1>
+        <div class="form-row">
+          <input type="text" id="contact-name" placeholder="Nombre" class="input-half" />
+          <input type="text" id="contact-pubkey" placeholder="Clave pública (64 hex)" pattern="[0-9a-fA-F]{64}" maxlength="64" class="input-half" />
+          <button id="btn-add-contact" class="btn">Agregar</button>
+        </div>
+        <div id="contacts-list"></div>
+      </div>
+
+      <div id="view-compose" class="view hidden">
+        <h1>Cifrar mensaje</h1>
+        <p>Cifra un mensaje y copia el blob al portapapeles. Luego pégalo en el formulario FreeBasics.</p>
+        <label for="compose-contact">Destinatario</label>
+        <select id="compose-contact" class="input-full"></select>
+        <label for="compose-message">Mensaje</label>
+        <textarea id="compose-message" rows="4" placeholder="Escribe tu mensaje..." class="input-full"></textarea>
+        <button id="btn-compose-encrypt" class="btn">Cifrar y copiar</button>
+        <div id="encrypt-result" class="result-box hidden">
+          <p>Blob cifrado (NIP-44) — ya está en tu portapapeles:</p>
+          <pre id="encrypt-blob" class="blob-display"></pre>
+          <button id="btn-copy-blob" class="btn btn-small">Copiar de nuevo</button>
+          <p class="note">Pega este blob en <a href="/fb/send" target="_blank">/fb/send</a> o envíalo manualmente a tu contacto.</p>
+        </div>
+      </div>
+
+      <div id="view-inbox" class="view hidden">
+        <h1>Bandeja de entrada</h1>
+        <div id="inbox-list">
+          <div class="form-row">
+            <button id="btn-relay-connect" class="btn btn-small">Conectar relay</button>
+            <button id="btn-relay-disconnect" class="btn btn-small btn-secondary">Desconectar</button>
+          </div>
+          <h2>Descifrar blob manual</h2>
+          <label for="decrypt-input">Blob cifrado (pégalo aquí)</label>
+          <textarea id="decrypt-input" rows="3" placeholder="Pega el blob JSON..." class="input-full"></textarea>
+          <button id="btn-decrypt" class="btn">Descifrar</button>
+          <div id="decrypt-result" class="result-box hidden">
+            <p>Mensaje descifrado:</p>
+            <pre id="decrypt-text" class="plaintext-display"></pre>
+          </div>
+          <hr />
+          <h2>Conversaciones</h2>
+          <div id="inbox-messages"></div>
+        </div>
+        <div id="inbox-detail" class="hidden"></div>
+      </div>
+
+      <div id="view-history" class="view hidden">
+        <h1>Historial</h1>
+        <p>Todos tus mensajes descifrados se guardan localmente.</p>
+        <div id="history-container"></div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <p>KeyChat — Proyecto educativo de criptografía asimétrica y mensajería Nostr</p>
+      <p><a href="/">Inicio</a> | <a href="/fb/send">Enviar mensaje</a> | <a href="/fb/receive">Recibir mensajes</a></p>
+    </footer>
+  <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-.PHONY: all build test run lint clean js-build js-dev
+.PHONY: all build test lint run clean js-build js-dev js-lint docker-build docker-run
 
 all: build
 
@@ -26,8 +26,12 @@ js-build:
 js-dev:
 	cd web && npm run dev
 
-js-test:
-	cd web && npm test
-
 js-lint:
 	cd web && npm run lint
+
+# Docker
+docker-build:
+	docker compose build
+
+docker-run:
+	docker compose up -d

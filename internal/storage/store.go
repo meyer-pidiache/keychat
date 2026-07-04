@@ -230,6 +230,83 @@ func (s *SQLiteStore) getTags(eventID string) ([]relay.Tag, error) {
 	return tags, nil
 }
 
+func (s *SQLiteStore) SaveEventJSON(eventJSON string) error {
+	var raw map[string]any
+	if err := json.Unmarshal([]byte(eventJSON), &raw); err != nil {
+		return fmt.Errorf("parse event json: %w", err)
+	}
+	id, _ := raw["id"].(string)
+	pubkey, _ := raw["pubkey"].(string)
+	createdAt, _ := raw["created_at"].(float64)
+	kind, _ := raw["kind"].(float64)
+	content, _ := raw["content"].(string)
+	sig, _ := raw["sig"].(string)
+
+	ev := &relay.Event{
+		ID:        id,
+		Pubkey:    pubkey,
+		CreatedAt: int64(createdAt),
+		Kind:      int(kind),
+		Content:   content,
+		Sig:       sig,
+	}
+	if tagsRaw, ok := raw["tags"].([]any); ok {
+		for _, t := range tagsRaw {
+			if tagArr, ok := t.([]any); ok {
+				tag := make(relay.Tag, len(tagArr))
+				for i, v := range tagArr {
+					tag[i] = fmt.Sprint(v)
+				}
+				ev.Tags = append(ev.Tags, tag)
+			}
+		}
+	}
+	return s.SaveEvent(ev)
+}
+
+func (s *SQLiteStore) QueryEventsByPTag(pubkey string) ([]map[string]any, error) {
+	events, err := s.queryFilter(&relay.Filter{
+		Tags:  map[string][]string{"p": {pubkey}},
+		Limit: intPtr(50),
+	})
+	if err != nil {
+		return nil, err
+	}
+	result := make([]map[string]any, 0, len(events))
+	for _, e := range events {
+		result = append(result, map[string]any{
+			"id":         e.ID,
+			"pubkey":     e.Pubkey,
+			"created_at": e.CreatedAt,
+			"kind":       int64(e.Kind),
+			"content":    e.Content,
+		})
+	}
+	return result, nil
+}
+
+func (s *SQLiteStore) QueryEventByID(id string) (map[string]any, error) {
+	e, err := s.queryFilter(&relay.Filter{
+		IDs:   []string{id},
+		Limit: intPtr(1),
+	})
+	if err != nil {
+		return nil, err
+	}
+	if len(e) == 0 {
+		return nil, nil
+	}
+	return map[string]any{
+		"id":         e[0].ID,
+		"pubkey":     e[0].Pubkey,
+		"created_at": e[0].CreatedAt,
+		"kind":       int64(e[0].Kind),
+		"content":    e[0].Content,
+	}, nil
+}
+
+func intPtr(n int) *int { return &n }
+
 func (s *SQLiteStore) DeleteOlderThan(t time.Time) (int64, error) {
 	result, err := s.db.Exec("DELETE FROM events WHERE created_at < ?", t.Unix())
 	if err != nil {

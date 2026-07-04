@@ -1,0 +1,15 @@
+services:
+  keychat:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - DB_PATH=/data/keychat.db
+      - WEB_DIR=/web
+    volumes:
+      - keychat-data:/data
+    restart: unless-stopped
+
+volumes:
+  keychat-data:

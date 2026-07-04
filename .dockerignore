@@ -1,0 +1,10 @@
+.git/
+.gitignore
+*.md
+Dockerfile
+docker-compose.yml
+.env
+keychat.db
+web/dist/
+web/node_modules/
+cmd/keychat/keychat

@@ -5,6 +5,7 @@ go 1.26.4
 require (
 	github.com/coder/websocket v1.8.15
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.4.1
+	github.com/puzpuzpuz/xsync/v3 v3.5.1
 	golang.org/x/crypto v0.53.0
 	modernc.org/sqlite v1.53.0
 )

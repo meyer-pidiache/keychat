@@ -23,24 +23,23 @@ func VerifyEventSignature(id, pubkeyHex, sigHex string) bool {
 		return false
 	}
 
-	compressed := make([]byte, 33)
-	compressed[0] = 0x02
-	copy(compressed[1:], pubBytes[:32])
-
-	pubKey, err := schnorr.ParsePubKey(compressed)
-	if err != nil {
-		compressed[0] = 0x03
-		pubKey, err = schnorr.ParsePubKey(compressed)
-		if err != nil {
-			return false
-		}
-	}
 	sig, err := schnorr.ParseSignature(sigBytes)
 	if err != nil {
 		return false
 	}
 
-	return sig.Verify(idBytes, pubKey)
+	compressed := make([]byte, 33)
+	copy(compressed[1:], pubBytes[:32])
+	compressed[0] = 0x02
+	if pk, err := schnorr.ParsePubKey(compressed); err == nil && sig.Verify(idBytes, pk) {
+		return true
+	}
+	compressed[0] = 0x03
+	if pk, err := schnorr.ParsePubKey(compressed); err == nil && sig.Verify(idBytes, pk) {
+		return true
+	}
+
+	return false
 }
 
 func ComputeEventID(serialized []byte) string {

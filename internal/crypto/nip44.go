@@ -23,9 +23,16 @@ const (
 
 func sharedSecretECDH(privKey, pubKey []byte) ([]byte, error) {
 	priv := secp.PrivKeyFromBytes(privKey)
-	pub, err := secp.ParsePubKey(pubKey)
+	compressed := make([]byte, 33)
+	compressed[0] = 0x02
+	copy(compressed[1:], pubKey[:32])
+	pub, err := secp.ParsePubKey(compressed)
 	if err != nil {
-		return nil, fmt.Errorf("parse pubkey: %w", err)
+		compressed[0] = 0x03
+		pub, err = secp.ParsePubKey(compressed)
+		if err != nil {
+			return nil, fmt.Errorf("parse pubkey: %w", err)
+		}
 	}
 	return secp.GenerateSharedSecret(priv, pub), nil
 }
@@ -125,12 +132,18 @@ func computeMAC(key, ciphertext, nonce, iv []byte) []byte {
 	return mac.Sum(nil)[:16]
 }
 
+func GetPubkey(privateKey []byte) []byte {
+	priv := secp.PrivKeyFromBytes(privateKey)
+	return priv.PubKey().SerializeUncompressed()[1:33]
+}
+
 func GenerateKey() (priv, pub []byte, err error) {
-	privateKey, err := secp.GeneratePrivateKey()
+	key, err := secp.GeneratePrivateKey()
 	if err != nil {
 		return nil, nil, err
 	}
-	return privateKey.Serialize(), privateKey.PubKey().SerializeCompressed(), nil
+	pubBytes := key.PubKey().SerializeUncompressed()[1:33]
+	return key.Serialize(), pubBytes, nil
 }
 
 func RandomBytes(n int) ([]byte, error) {

@@ -16,17 +16,17 @@ type EventStore interface {
 	Close() error
 }
 
-type RateLimiter interface {
+type RateLimitChecker interface {
 	Allow(key string) bool
 }
 
 type Relay struct {
 	store      EventStore
 	subManager *SubscriptionManager
-	rateLim    RateLimiter
+	rateLim    RateLimitChecker
 }
 
-func NewRelay(store EventStore, rateLim RateLimiter) *Relay {
+func NewRelay(store EventStore, rateLim RateLimitChecker) *Relay {
 	return &Relay{
 		store:      store,
 		subManager: NewSubscriptionManager(),

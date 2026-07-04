@@ -168,3 +168,245 @@ th {
     gap: 0.25rem;
   }
 }
+
+.hidden { display: none !important; }
+
+.subtitle { font-size: 1.1rem; color: var(--color-muted); margin-bottom: 1rem; }
+
+.pubkey-badge {
+  display: inline-block;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0.25rem 0.75rem;
+  font-family: monospace;
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.action-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.features ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+
+.features li {
+  margin-bottom: 0.375rem;
+}
+
+.key-field { margin-bottom: 1rem; }
+
+.key-field label {
+  font-weight: 700;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.key-display {
+  font-size: 0.75rem;
+  word-break: break-all;
+  white-space: pre-wrap;
+  background: var(--color-bg-alt);
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin: 0.25rem 0 0.5rem 0;
+}
+
+.input-full { box-sizing: border-box; }
+.input-half { box-sizing: border-box; width: calc(50% - 0.25rem); }
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.btn-small {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  min-height: auto;
+  min-width: auto;
+}
+
+.btn-danger {
+  background: #cc0000;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #990000;
+}
+
+.result-box {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f0f8ff;
+  border: 1px solid #cce5ff;
+  border-radius: 4px;
+}
+
+.blob-display, .plaintext-display {
+  font-size: 0.75rem;
+  word-break: break-all;
+  white-space: pre-wrap;
+  background: white;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  margin: 0.5rem 0;
+}
+
+.contact-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.contact-item:last-child { border-bottom: none; }
+
+.contact-info strong { display: block; }
+
+.contact-info code {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.conversation-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+}
+
+.conversation-item:hover { background: var(--color-bg-alt); }
+
+.conversation-preview {
+  flex: 1;
+  margin: 0 0.5rem;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.conversation-time {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.conversation-thread {
+  max-height: 400px;
+  overflow-y: auto;
+  margin: 1rem 0;
+}
+
+.message-bubble {
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  max-width: 80%;
+}
+
+.message-bubble.sent {
+  background: var(--color-primary);
+  color: white;
+  margin-left: auto;
+}
+
+.message-bubble.received {
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  margin-right: auto;
+}
+
+.message-content { margin-bottom: 0.25rem; }
+
+.message-time {
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+.history-group {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.history-msg {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.375rem 0;
+  align-items: baseline;
+}
+
+.history-direction {
+  font-weight: 700;
+  width: 1rem;
+  flex-shrink: 0;
+}
+
+.history-content { flex: 1; }
+
+.history-time {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--color-muted);
+  padding: 2rem 0;
+}
+
+.note {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+.nav-link.active {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  font-weight: 600;
+}
+
+.relay-status {
+  font-size: 0.75rem;
+  margin-left: auto;
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.relay-status.connected {
+  background: rgba(0, 200, 0, 0.25);
+  color: #fff;
+}
+
+.relay-status.disconnected {
+  background: rgba(200, 0, 0, 0.25);
+  color: rgba(255,255,255,0.7);
+}
