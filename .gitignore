@@ -32,3 +32,6 @@ Thumbs.db
 # Sisyphus evidence
 .sisyphus/
 keychat
+
+# autoskills intermediate artifacts
+web/.kiro/
