@@ -6,17 +6,30 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   go:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-go@v5
         with:
           go-version: '1.26'
       - run: go build ./cmd/keychat/...
       - run: go vet ./...
-      - run: go test ./... -v -count=1
+      - run: go test ./... -v -race -count=1 -coverprofile=coverage.out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: go-coverage
+          path: coverage.out
 
   js:
     runs-on: ubuntu-latest
@@ -24,7 +37,9 @@ jobs:
       run:
         working-directory: web
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: pnpm/action-setup@v4
         with:
           version: 10
@@ -36,3 +51,38 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
       - run: pnpm run lint
+
+  integration:
+    needs: [go, js]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+          cache-dependency-path: web/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+        working-directory: web
+      - run: pnpm run build
+        working-directory: web
+      - run: go build -o keychat-server ./cmd/keychat/...
+      - name: Start server
+        run: |
+          ./keychat-server &
+          echo $! > /tmp/keychat-server.pid
+          sleep 3
+          curl -sf http://localhost:8080/healthz > /dev/null
+      - run: bash test/integration/relay_test.sh
+      - name: Stop server
+        if: always()
+        run: |
+          pid=$(cat /tmp/keychat-server.pid 2>/dev/null) && kill "$pid" 2>/dev/null || true

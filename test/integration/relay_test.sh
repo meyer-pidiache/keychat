@@ -33,6 +33,19 @@ check_header() {
   check "$desc" "$expected" "$val"
 }
 
+check_header_present() {
+  local desc="$1" url="$2" header="$3"
+  local val
+  val=$(curl -s -I "$url" | grep -i "^$header:" | sed 's/.*: //' | tr -d '\r\n')
+  if [ -n "$val" ]; then
+    echo "  PASS: $desc"
+    PASS=$((PASS+1))
+  else
+    echo "  FAIL: $desc (header $header not found)"
+    FAIL=$((FAIL+1))
+  fi
+}
+
 echo "=== KeyChat Integration Tests ==="
 echo "Server: $BASE"
 echo
@@ -41,7 +54,7 @@ echo "--- Health / Root ---"
 check_status "GET /" "$BASE/" "200"
 
 echo "--- Security Headers ---"
-check_header "CSP present" "$BASE/" "Content-Security-Policy" ""
+check_header_present "CSP present" "$BASE/" "Content-Security-Policy"
 check_header "X-Content-Type-Options" "$BASE/" "X-Content-Type-Options" "nosniff"
 check_header "X-Frame-Options" "$BASE/" "X-Frame-Options" "DENY"
 
