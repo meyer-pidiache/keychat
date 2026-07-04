@@ -1,5 +1,3 @@
-.PHONY: all build test lint run clean js-build js-dev js-lint docker-build docker-run
-
 .PHONY: all build test lint run clean js-build js-dev js-lint docker-dev docker-prod docker-build docker-run
 
 all: build

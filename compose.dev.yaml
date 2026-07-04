@@ -2,10 +2,5 @@ services:
   keychat:
     environment:
       - NODE_ENV=development
-    develop:
-      watch:
-        - path: web/
-          action: sync
-          target: /build/web
     volumes:
       - ./web:/build/web

@@ -3,7 +3,6 @@
 *.md
 Dockerfile
 compose*.yaml
-docker-compose.yml
 .env
 keychat.db
 web/dist/
