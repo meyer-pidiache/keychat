@@ -10,8 +10,8 @@ type OKResponse struct {
 }
 
 type EOSEResponse struct {
-	Type   string `json:"type"`
-	SubID  string `json:"subscription"`
+	Type  string `json:"type"`
+	SubID string `json:"subscription"`
 }
 
 type ClosedResponse struct {

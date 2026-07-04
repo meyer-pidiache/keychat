@@ -10,25 +10,25 @@ import (
 )
 
 type Event struct {
-	ID        string     `json:"id"`
-	Pubkey    string     `json:"pubkey"`
-	CreatedAt int64      `json:"created_at"`
-	Kind      int        `json:"kind"`
-	Tags      []Tag      `json:"tags"`
-	Content   string     `json:"content"`
-	Sig       string     `json:"sig"`
+	ID        string `json:"id"`
+	Pubkey    string `json:"pubkey"`
+	CreatedAt int64  `json:"created_at"`
+	Kind      int    `json:"kind"`
+	Tags      []Tag  `json:"tags"`
+	Content   string `json:"content"`
+	Sig       string `json:"sig"`
 }
 
 type Tag []string
 
 type Filter struct {
-	IDs     []string          `json:"ids,omitempty"`
-	Authors []string          `json:"authors,omitempty"`
-	Kinds   []int             `json:"kinds,omitempty"`
+	IDs     []string            `json:"ids,omitempty"`
+	Authors []string            `json:"authors,omitempty"`
+	Kinds   []int               `json:"kinds,omitempty"`
 	Tags    map[string][]string `json:"-"`
-	Since   *int64            `json:"since,omitempty"`
-	Until   *int64            `json:"until,omitempty"`
-	Limit   *int              `json:"limit,omitempty"`
+	Since   *int64              `json:"since,omitempty"`
+	Until   *int64              `json:"until,omitempty"`
+	Limit   *int                `json:"limit,omitempty"`
 }
 
 type Subscription struct {

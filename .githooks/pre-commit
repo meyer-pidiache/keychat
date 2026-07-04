@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "→ pre-commit: checking formatting + vet"
+
+STASH_NAME="pre-commit-$(date +%s)"
+git stash --staged --quiet --include-untracked --message "$STASH_NAME" 2>/dev/null || true
+
+cleanup() {
+  git stash list --format='%s' | grep -qFx "$STASH_NAME" && git stash pop --quiet 2>/dev/null || true
+}
+trap cleanup EXIT
+
+# ── go fmt ───────────────────────────────────────────────────────────────────
+go fmt ./... 2>/dev/null
+fmt_exit=$?
+if [ $fmt_exit -ne 0 ]; then
+  echo "❌ go fmt: some files are not formatted. Run 'go fmt ./...' and stage again."
+  exit 1
+fi
+echo "  ✓ go fmt"
+
+# ── go vet ───────────────────────────────────────────────────────────────────
+go vet ./... 2>/dev/null
+vet_exit=$?
+if [ $vet_exit -ne 0 ]; then
+  echo "❌ go vet: fix warnings before committing."
+  exit 1
+fi
+echo "  ✓ go vet"
+
+echo "✓ pre-commit passed"

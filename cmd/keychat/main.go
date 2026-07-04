@@ -117,5 +117,3 @@ func main() {
 	log.Println("shutting down...")
 	tc.Stop()
 }
-
-

@@ -1,0 +1,52 @@
+name: Feature Request
+description: Suggest an idea for KeyChat
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the problem you're solving, not just the solution you want.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What pain point or limitation does this address?
+      placeholder: "The relay doesn't support NIP-05 verification, so clients show unverified authors..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: How do you envision this working?
+      placeholder: "Add NIP-05 verification by checking the .well-known/nostr.json endpoint..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: example
+    attributes:
+      label: Example usage
+      description: A concrete example of how this would work.
+      render: shell
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Have you considered any workarounds or alternative approaches?
+      render: shell
+
+  - type: dropdown
+    id: contribution
+    attributes:
+      label: Would you be willing to submit a PR?
+      options:
+        - "Yes"
+        - "No"
+        - "Maybe (need guidance)"
+    validations:
+      required: true
