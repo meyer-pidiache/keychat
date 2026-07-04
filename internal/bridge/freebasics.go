@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"html"
 	"log"
 	"net/http"
 	"strconv"
@@ -139,46 +140,51 @@ func (fb *FreeBasicsBridge) handlePostSend(w http.ResponseWriter, r *http.Reques
 func (fb *FreeBasicsBridge) handleReceive(w http.ResponseWriter, r *http.Request) {
 	pubkey := r.URL.Query().Get("pubkey")
 
-	html := fmt.Sprintf(`<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><title>Recibir Mensajes — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
+	pageHTML := fmt.Sprintf(`<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><title>Recibir Mensajes — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
 <a href="#main-content" class="skip-link">Saltar al contenido</a>
 <header class="site-header"><nav class="nav" aria-label="Principal"><a href="/" class="nav-logo">KeyChat</a><ul class="nav-links"><li><a href="/fb/send">Enviar</a></li><li><a href="/fb/receive">Recibir</a></li></ul></nav></header>
 <main id="main-content" class="main-content"><h1>Recibir Mensajes</h1>
-<form method="GET" action="/fb/receive"><label for="pubkey">Tu clave pública (64 hex):</label><input type="text" id="pubkey" name="pubkey" pattern="[0-9a-fA-F]{64}" maxlength="64" required placeholder="Tu clave pública" value="%s"><button type="submit" class="btn">Buscar mensajes</button></form>`, pubkey)
+<form method="GET" action="/fb/receive"><label for="pubkey">Tu clave pública (64 hex):</label><input type="text" id="pubkey" name="pubkey" pattern="[0-9a-fA-F]{64}" maxlength="64" required placeholder="Tu clave pública" value="%s"><button type="submit" class="btn">Buscar mensajes</button></form>`, html.EscapeString(pubkey))
 
 	if pubkey != "" {
-		html += fmt.Sprintf(`<p>Mostrando mensajes para: <code>%s</code></p>`, pubkey[:16]+"...")
+		escaped := html.EscapeString(pubkey)
+		trunc := escaped
+		if len(trunc) > 16 {
+			trunc = trunc[:16] + "..."
+		}
+		pageHTML += fmt.Sprintf(`<p>Mostrando mensajes para: <code>%s</code></p>`, trunc)
 
 		if fb.store != nil {
 			events, err := fb.store.QueryEventsByPTag(pubkey)
 			if err != nil {
 				log.Printf("fb/receive: query error: %v", err)
 			} else if len(events) == 0 {
-				html += `<p><em>No hay mensajes disponibles</em></p>`
+				pageHTML += `<p><em>No hay mensajes disponibles</em></p>`
 			} else {
-				html += `<ul class="event-list">`
+				pageHTML += `<ul class="event-list">`
 				for _, ev := range events {
 					evID, _ := ev["id"].(string)
 					evKind, _ := ev["kind"].(int64)
 					evTime, _ := ev["created_at"].(int64)
 					content, _ := ev["content"].(string)
-					trunc := content
+					trunc := html.EscapeString(content)
 					if len(trunc) > 60 {
 						trunc = trunc[:60] + "..."
 					}
-					html += fmt.Sprintf(`<li><a href="/fb/view?id=%s">[kind %d] %s</a> <span class="event-time">%s</span></li>`,
-						evID, evKind, trunc, time.Unix(evTime, 0).Format("2006-01-02 15:04"))
+					pageHTML += fmt.Sprintf(`<li><a href="/fb/view?id=%s">[kind %d] %s</a> <span class="event-time">%s</span></li>`,
+						html.EscapeString(evID), evKind, trunc, time.Unix(evTime, 0).Format("2006-01-02 15:04"))
 				}
-				html += `</ul>`
+				pageHTML += `</ul>`
 			}
 		} else {
-			html += `<p><em>No hay mensajes disponibles</em></p>`
+			pageHTML += `<p><em>No hay mensajes disponibles</em></p>`
 		}
 	}
 
-	html += `<p><a href="/fb/send">Enviar mensaje</a></p></main>
+	pageHTML += `<p><a href="/fb/send">Enviar mensaje</a></p></main>
 <footer class="site-footer"><p>KeyChat — Proyecto educativo</p></footer></body></html>`
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	w.Write([]byte(html))
+	w.Write([]byte(pageHTML))
 }
 
 func (fb *FreeBasicsBridge) handleViewEvent(w http.ResponseWriter, r *http.Request) {
@@ -204,7 +210,7 @@ func (fb *FreeBasicsBridge) handleViewEvent(w http.ResponseWriter, r *http.Reque
 		content = "Evento no encontrado"
 	}
 
-	html := fmt.Sprintf(`<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><title>Evento — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
+	pageHTML := fmt.Sprintf(`<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><title>Evento — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
 <a href="#main-content" class="skip-link">Saltar al contenido</a>
 <header class="site-header"><nav class="nav" aria-label="Principal"><a href="/" class="nav-logo">KeyChat</a><ul class="nav-links"><li><a href="/fb/send">Enviar</a></li><li><a href="/fb/receive">Recibir</a></li></ul></nav></header>
 <main id="main-content" class="main-content"><h1>Evento</h1>
@@ -214,9 +220,9 @@ func (fb *FreeBasicsBridge) handleViewEvent(w http.ResponseWriter, r *http.Reque
 <p><strong>Fecha:</strong> %s</p>
 <pre style="white-space:pre-wrap;word-break:break-all;">%s</pre>
 <p><a href="/fb/receive">Volver</a></p></main>
-<footer class="site-footer"><p>KeyChat — Proyecto educativo</p></footer></body></html>`, eventID, pubkey, eventKind, createdAt, content)
+<footer class="site-footer"><p>KeyChat — Proyecto educativo</p></footer></body></html>`, html.EscapeString(eventID), html.EscapeString(pubkey), html.EscapeString(eventKind), html.EscapeString(createdAt), html.EscapeString(content))
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	w.Write([]byte(html))
+	w.Write([]byte(pageHTML))
 }
 
 func (fb *FreeBasicsBridge) handleSubmitEvent(w http.ResponseWriter, r *http.Request) {
