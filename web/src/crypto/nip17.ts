@@ -1,6 +1,6 @@
 import { encrypt, decrypt } from './nip44'
 import { getPublicKey } from './keys'
-import { bytesToHex } from '@noble/hashes/utils'
+import { bytesToHex, hexToBytes } from '@noble/hashes/utils'
 import { secp256k1 } from '@noble/curves/secp256k1'
 
 export interface GiftWrap {
@@ -65,10 +65,4 @@ export function unwrapGiftWrap(
   return rumor.content
 }
 
-function hexToBytes(hex: string): Uint8Array {
-  const bytes = new Uint8Array(hex.length / 2)
-  for (let i = 0; i < bytes.length; i++) {
-    bytes[i] = parseInt(hex.substr(i * 2, 2), 16)
-  }
-  return bytes
-}
+

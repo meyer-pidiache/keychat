@@ -1,5 +1,3 @@
-// @ts-nocheck
-const CACHE_NAME = 'keychat-v1'
 const STATIC_CACHE = 'keychat-static-v1'
 const ASSET_CACHE = 'keychat-assets-v1'
 
@@ -12,8 +10,10 @@ const STATIC_URLS = [
   '/sw.js',
 ]
 
-self.addEventListener('install', (event) => {
-  self.skipWaiting()
+const swScope = self as unknown as ServiceWorkerGlobalScope
+
+swScope.addEventListener('install', (event) => {
+  swScope.skipWaiting()
   event.waitUntil(
     caches.open(STATIC_CACHE).then((cache) => {
       return cache.addAll(STATIC_URLS).catch(() => {})
@@ -21,7 +21,7 @@ self.addEventListener('install', (event) => {
   )
 })
 
-self.addEventListener('activate', (event) => {
+swScope.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((names) => {
       return Promise.all(
@@ -33,7 +33,7 @@ self.addEventListener('activate', (event) => {
   )
 })
 
-self.addEventListener('fetch', (event) => {
+swScope.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url)
 
   if (url.pathname.startsWith('/ws') || url.pathname.startsWith('/api/')) {

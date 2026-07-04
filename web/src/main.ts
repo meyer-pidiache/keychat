@@ -242,8 +242,6 @@ $('#btn-compose-encrypt')?.addEventListener('click', async () => {
   if (!keys) { alert('No hay claves'); return }
   try {
     const recipientBytes = hexToPublicKey(recipient)
-    console.log('[encrypt] privateKey len:', keys.privateKey.length)
-    console.log('[encrypt] recipientBytes len:', recipientBytes.length, 'first byte:', recipientBytes[0])
     const ciphertext = encrypt(message, keys.privateKey, recipientBytes)
     const blob = createOutboxBlob(ciphertext, publicKeyToHex(keys.publicKey), recipient)
     saveMessage({ contactPubKey: recipient, content: message, direction: 'sent', timestamp: Date.now() })
