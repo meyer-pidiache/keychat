@@ -1,55 +1,24 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="KeyChat — Aprende criptografía asimétrica y mensajería privada">
-  <meta name="robots" content="noindex">
-  <link rel="stylesheet" href="/static/css/reset.css">
-  <link rel="stylesheet" href="/static/css/main.css">
-  <title>Mensajería Privada — KeyChat</title>
-</head>
-<body>
-  <header class="site-header">
-    <nav class="nav" aria-label="Principal">
-      <a href="/" class="nav-logo">KeyChat</a>
-      <ul class="nav-links">
-        <li><a href="/learn/crypto">Criptografía</a></li>
-        <li><a href="/learn/nostr">Nostr</a></li>
-        <li><a href="/learn/keys">Claves</a></li>
-        <li><a href="/learn/messaging">Mensajería</a></li>
-        <li><a href="/learn/architecture">Arquitectura</a></li>
-        <li><a href="/fb/send">Enviar</a></li>
-        <li><a href="/fb/receive">Recibir</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main class="main-content">
-    <h1>Mensajería Privada con NIP-17</h1>
-    <p>KeyChat usa el estándar <strong>NIP-17</strong> para mensajería privada cifrada. Este sistema asegura que solo el destinatario puede leer el mensaje y el relay no sabe quién lo envió.</p>
-    <h2>Proceso de Triple Envoltura</h2>
-    <h3>1. Rumor (kind 14)</h3>
-    <p>El mensaje en texto plano. Nunca se envía a la red.</p>
-    <h3>2. Seal (kind 13)</h3>
-    <p>El rumor se cifra con la clave pública del destinatario usando NIP-44.</p>
-    <h3>3. Gift Wrap (kind 1059)</h3>
-    <p>El sello se cifra de nuevo con una clave efímera aleatoria. El relay solo ve una clave temporal.</p>
-    <h2>BYOE (Bring Your Own Encryption)</h2>
-    <ol>
-      <li>Cifra el mensaje en la app offline KeyChat</li>
-      <li>Copia el blob cifrado al portapapeles</li>
-      <li>Abre el navegador y pega el blob en el formulario</li>
-      <li>El relay almacena el blob cifrado (no puede leerlo)</li>
-      <li>El destinatario descarga el blob y lo descifra offline</li>
-    </ol>
-    <div class="page-nav">
-      <a href="/learn/keys">← Anterior: Generación de Claves</a>
-      <a href="/learn/architecture">Siguiente: Arquitectura →</a>
-    </div>
-  </main>
-  <footer class="site-footer">
-    <p>KeyChat — Proyecto educativo de criptografía asimétrica y mensajería Nostr</p>
-    <p><a href="/">Inicio</a> | <a href="/fb/send">Enviar mensaje</a> | <a href="/fb/receive">Recibir mensajes</a></p>
-  </footer>
-</body>
-</html>
+{{define "title"}}Mensajería Privada — KeyChat{{end}}
+{{define "content"}}
+<h1>Mensajería Privada con NIP-17</h1>
+<p>KeyChat usa el estándar <strong>NIP-17</strong> para mensajería privada cifrada. Este sistema asegura que solo el destinatario puede leer el mensaje y el relay no sabe quién lo envió.</p>
+<h2>Proceso de Triple Envoltura</h2>
+<h3>1. Rumor (kind 14)</h3>
+<p>El mensaje en texto plano. Nunca se envía a la red.</p>
+<h3>2. Seal (kind 13)</h3>
+<p>El rumor se cifra con la clave pública del destinatario usando NIP-44.</p>
+<h3>3. Gift Wrap (kind 1059)</h3>
+<p>El sello se cifra de nuevo con una clave efímera aleatoria. El relay solo ve una clave temporal.</p>
+<h2>BYOE (Bring Your Own Encryption)</h2>
+<ol>
+  <li>Cifra el mensaje en la app offline KeyChat</li>
+  <li>Copia el blob cifrado al portapapeles</li>
+  <li>Abre el navegador y pega el blob en el formulario</li>
+  <li>El relay almacena el blob cifrado (no puede leerlo)</li>
+  <li>El destinatario descarga el blob y lo descifra offline</li>
+</ol>
+<div class="page-nav">
+  <a href="/learn/keys">← Anterior: Generación de Claves</a>
+  <a href="/learn/architecture">Siguiente: Arquitectura →</a>
+</div>
+{{end}}

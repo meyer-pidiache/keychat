@@ -1,48 +1,17 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="KeyChat — Aprende criptografía asimétrica y mensajería privada">
-  <meta name="robots" content="noindex">
-  <link rel="stylesheet" href="/static/css/reset.css">
-  <link rel="stylesheet" href="/static/css/main.css">
-  <title>Generación de Claves — KeyChat</title>
-</head>
-<body>
-  <header class="site-header">
-    <nav class="nav" aria-label="Principal">
-      <a href="/" class="nav-logo">KeyChat</a>
-      <ul class="nav-links">
-        <li><a href="/learn/crypto">Criptografía</a></li>
-        <li><a href="/learn/nostr">Nostr</a></li>
-        <li><a href="/learn/keys">Claves</a></li>
-        <li><a href="/learn/messaging">Mensajería</a></li>
-        <li><a href="/learn/architecture">Arquitectura</a></li>
-        <li><a href="/fb/send">Enviar</a></li>
-        <li><a href="/fb/receive">Recibir</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main class="main-content">
-    <h1>Generación de Claves</h1>
-    <p>Para usar KeyChat necesitas un par de claves: una <strong>clave pública</strong> (compartes) y una <strong>clave privada</strong> (nunca compartes).</p>
-    <p><strong>⚠️ IMPORTANTE:</strong> La clave privada es tu identidad digital. Si la pierdes, pierdes acceso a tus mensajes. Guárdala en un lugar seguro.</p>
-    <h2>Generar Claves desde el Navegador</h2>
-    <p>La aplicación KeyChat genera claves directamente en tu dispositivo. Las claves <strong>nunca salen de tu dispositivo</strong>.</p>
-    <h2>Formato de Claves</h2>
-    <h3>Clave Pública (64 caracteres hex)</h3>
-    <pre>a3b5c7d9... (64 caracteres hexadecimales)</pre>
-    <h3>Clave Privada (64 caracteres hex)</h3>
-    <pre>1b3d5f7a... (64 caracteres hexadecimales)</pre>
-    <div class="page-nav">
-      <a href="/learn/nostr">← Anterior: Nostr</a>
-      <a href="/learn/messaging">Siguiente: Mensajería Privada →</a>
-    </div>
-  </main>
-  <footer class="site-footer">
-    <p>KeyChat — Proyecto educativo de criptografía asimétrica y mensajería Nostr</p>
-    <p><a href="/">Inicio</a> | <a href="/fb/send">Enviar mensaje</a> | <a href="/fb/receive">Recibir mensajes</a></p>
-  </footer>
-</body>
-</html>
+{{define "title"}}Generación de Claves — KeyChat{{end}}
+{{define "content"}}
+<h1>Generación de Claves</h1>
+<p>Para usar KeyChat necesitas un par de claves: una <strong>clave pública</strong> (compartes) y una <strong>clave privada</strong> (nunca compartes).</p>
+<p><strong>⚠️ IMPORTANTE:</strong> La clave privada es tu identidad digital. Si la pierdes, pierdes acceso a tus mensajes. Guárdala en un lugar seguro.</p>
+<h2>Generar Claves desde el Navegador</h2>
+<p>La aplicación KeyChat genera claves directamente en tu dispositivo. Las claves <strong>nunca salen de tu dispositivo</strong>.</p>
+<h2>Formato de Claves</h2>
+<h3>Clave Pública (64 caracteres hex)</h3>
+<pre>a3b5c7d9... (64 caracteres hexadecimales)</pre>
+<h3>Clave Privada (64 caracteres hex)</h3>
+<pre>1b3d5f7a... (64 caracteres hexadecimales)</pre>
+<div class="page-nav">
+  <a href="/learn/nostr">← Anterior: Nostr</a>
+  <a href="/learn/messaging">Siguiente: Mensajería Privada →</a>
+</div>
+{{end}}

@@ -2,22 +2,27 @@ package templates
 
 import (
 	"embed"
+	"html/template"
+	"log"
 	"net/http"
 )
 
-//go:embed pages/*.html
-var PagesFS embed.FS
+//go:embed base.html pages/*.html
+var TemplatesFS embed.FS
 
 func ServePage(name string) http.HandlerFunc {
-	path := "pages/" + name + ".html"
-	data, err := PagesFS.ReadFile(path)
+	patterns := []string{"base.html", "pages/" + name + ".html"}
+	tmpl, err := template.ParseFS(TemplatesFS, patterns...)
 	if err != nil {
+		log.Printf("ERROR parsing template %s: %v", name, err)
 		return func(w http.ResponseWriter, r *http.Request) {
-			http.NotFound(w, r)
+			http.Error(w, "Error interno del servidor", http.StatusInternalServerError)
 		}
 	}
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		w.Write(data)
+		if err := tmpl.Execute(w, nil); err != nil {
+			log.Printf("ERROR executing template %s: %v", name, err)
+		}
 	}
 }

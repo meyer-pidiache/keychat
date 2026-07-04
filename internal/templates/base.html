@@ -5,24 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="KeyChat — Aprende criptografía asimétrica y mensajería privada">
   <meta name="robots" content="noindex">
+  <link rel="icon" href="/static/icons/keychat-32.png" type="image/png">
+  <link rel="icon" href="/static/icons/keychat.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/static/css/reset.css">
   <link rel="stylesheet" href="/static/css/main.css">
   <title>{{ block "title" . }}KeyChat{{ end }}</title>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Saltar al contenido</a>
+
   <header class="site-header">
     <nav class="nav" aria-label="Principal">
       <a href="/" class="nav-logo">KeyChat</a>
       <ul class="nav-links">
+        {{ block "nav_links" . }}
         <li><a href="/learn/crypto">Criptografía</a></li>
         <li><a href="/learn/nostr">Nostr</a></li>
         <li><a href="/learn/keys">Claves</a></li>
         <li><a href="/learn/messaging">Mensajería</a></li>
+        <li><a href="/learn/architecture">Arquitectura</a></li>
+        <li><a href="/fb/send">Enviar</a></li>
+        <li><a href="/fb/receive">Recibir</a></li>
+        {{ end }}
       </ul>
     </nav>
   </header>
 
-  <main class="main-content">
+  <main id="main-content" class="main-content">
     {{ block "content" . }}{{ end }}
   </main>
 

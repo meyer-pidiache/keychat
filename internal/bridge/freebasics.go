@@ -58,9 +58,10 @@ func (fb *FreeBasicsBridge) handleSendForm(w http.ResponseWriter, r *http.Reques
 }
 
 func (fb *FreeBasicsBridge) renderForm(w http.ResponseWriter, r *http.Request) {
-	html := `<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Enviar Mensaje — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
-<header class="site-header"><nav class="nav"><a href="/" class="nav-logo">KeyChat</a><ul class="nav-links"><li><a href="/fb/send">Enviar</a></li><li><a href="/fb/receive">Recibir</a></li></ul></nav></header>
-<main class="main-content"><h1>Enviar Mensaje Cifrado</h1>
+	html := `<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><link rel="icon" href="/static/icons/keychat.svg" type="image/svg+xml"><title>Enviar Mensaje — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
+<a href="#main-content" class="skip-link">Saltar al contenido</a>
+<header class="site-header"><nav class="nav" aria-label="Principal"><a href="/" class="nav-logo">KeyChat</a><ul class="nav-links"><li><a href="/fb/send">Enviar</a></li><li><a href="/fb/receive">Recibir</a></li></ul></nav></header>
+<main id="main-content" class="main-content"><h1>Enviar Mensaje Cifrado</h1>
 <p>Pega el blob cifrado desde la aplicación KeyChat en tu dispositivo.</p>
 <form method="POST" action="/fb/send">
 <label for="pubkey">Clave pública del destinatario (64 caracteres hex):</label>
@@ -138,9 +139,10 @@ func (fb *FreeBasicsBridge) handlePostSend(w http.ResponseWriter, r *http.Reques
 func (fb *FreeBasicsBridge) handleReceive(w http.ResponseWriter, r *http.Request) {
 	pubkey := r.URL.Query().Get("pubkey")
 
-	html := fmt.Sprintf(`<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Recibir Mensajes — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
-<header class="site-header"><nav class="nav"><a href="/" class="nav-logo">KeyChat</a><ul class="nav-links"><li><a href="/fb/send">Enviar</a></li><li><a href="/fb/receive">Recibir</a></li></ul></nav></header>
-<main class="main-content"><h1>Recibir Mensajes</h1>
+	html := fmt.Sprintf(`<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><link rel="icon" href="/static/icons/keychat.svg" type="image/svg+xml"><title>Recibir Mensajes — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
+<a href="#main-content" class="skip-link">Saltar al contenido</a>
+<header class="site-header"><nav class="nav" aria-label="Principal"><a href="/" class="nav-logo">KeyChat</a><ul class="nav-links"><li><a href="/fb/send">Enviar</a></li><li><a href="/fb/receive">Recibir</a></li></ul></nav></header>
+<main id="main-content" class="main-content"><h1>Recibir Mensajes</h1>
 <form method="GET" action="/fb/receive"><label for="pubkey">Tu clave pública (64 hex):</label><input type="text" id="pubkey" name="pubkey" pattern="[0-9a-fA-F]{64}" maxlength="64" required placeholder="Tu clave pública" value="%s"><button type="submit" class="btn">Buscar mensajes</button></form>`, pubkey)
 
 	if pubkey != "" {
@@ -202,14 +204,15 @@ func (fb *FreeBasicsBridge) handleViewEvent(w http.ResponseWriter, r *http.Reque
 		content = "Evento no encontrado"
 	}
 
-	html := fmt.Sprintf(`<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Evento — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
-<header class="site-header"><nav class="nav"><a href="/" class="nav-logo">KeyChat</a><ul class="nav-links"><li><a href="/fb/send">Enviar</a></li><li><a href="/fb/receive">Recibir</a></li></ul></nav></header>
-<main class="main-content"><h1>Evento</h1>
+	html := fmt.Sprintf(`<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><link rel="icon" href="/static/icons/keychat.svg" type="image/svg+xml"><title>Evento — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
+<a href="#main-content" class="skip-link">Saltar al contenido</a>
+<header class="site-header"><nav class="nav" aria-label="Principal"><a href="/" class="nav-logo">KeyChat</a><ul class="nav-links"><li><a href="/fb/send">Enviar</a></li><li><a href="/fb/receive">Recibir</a></li></ul></nav></header>
+<main id="main-content" class="main-content"><h1>Evento</h1>
 <p><strong>ID:</strong> <code>%s</code></p>
 <p><strong>Pubkey:</strong> <code>%s</code></p>
 <p><strong>Kind:</strong> %s</p>
 <p><strong>Fecha:</strong> %s</p>
-<hr><pre style="white-space:pre-wrap;word-break:break-all;background:#f5f5f5;padding:1em;border-radius:4px;">%s</pre>
+<pre style="white-space:pre-wrap;word-break:break-all;">%s</pre>
 <p><a href="/fb/receive">Volver</a></p></main>
 <footer class="site-footer"><p>KeyChat — Proyecto educativo</p></footer></body></html>`, eventID, pubkey, eventKind, createdAt, content)
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
@@ -225,9 +228,10 @@ func (fb *FreeBasicsBridge) handleSubmitEvent(w http.ResponseWriter, r *http.Req
 }
 
 func (fb *FreeBasicsBridge) handleConfirm(w http.ResponseWriter, r *http.Request) {
-	html := `<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Confirmación — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
-<header class="site-header"><nav class="nav"><a href="/" class="nav-logo">KeyChat</a><ul class="nav-links"><li><a href="/fb/send">Enviar</a></li><li><a href="/fb/receive">Recibir</a></li></ul></nav></header>
-<main class="main-content"><h1>Mensaje Enviado</h1>
+	html := `<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/static/icons/keychat-32.png" type="image/png"><link rel="icon" href="/static/icons/keychat.svg" type="image/svg+xml"><title>Confirmación — KeyChat</title><link rel="stylesheet" href="/static/css/reset.css"><link rel="stylesheet" href="/static/css/main.css"></head><body>
+<a href="#main-content" class="skip-link">Saltar al contenido</a>
+<header class="site-header"><nav class="nav" aria-label="Principal"><a href="/" class="nav-logo">KeyChat</a><ul class="nav-links"><li><a href="/fb/send">Enviar</a></li><li><a href="/fb/receive">Recibir</a></li></ul></nav></header>
+<main id="main-content" class="main-content"><h1>Mensaje Enviado</h1>
 <p>Tu mensaje cifrado ha sido enviado al relay. El destinatario puede verificarlo usando /fb/receive.</p>
 <p><a href="/fb/send" class="btn">Enviar otro</a> <a href="/fb/receive" class="btn btn-secondary">Recibir mensajes</a></p></main>
 <footer class="site-footer"><p>KeyChat — Proyecto educativo</p></footer></body></html>`
