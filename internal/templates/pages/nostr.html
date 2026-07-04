@@ -1,57 +1,26 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="KeyChat — Aprende criptografía asimétrica y mensajería privada">
-  <meta name="robots" content="noindex">
-  <link rel="stylesheet" href="/static/css/reset.css">
-  <link rel="stylesheet" href="/static/css/main.css">
-  <title>Nostr — KeyChat</title>
-</head>
-<body>
-  <header class="site-header">
-    <nav class="nav" aria-label="Principal">
-      <a href="/" class="nav-logo">KeyChat</a>
-      <ul class="nav-links">
-        <li><a href="/learn/crypto">Criptografía</a></li>
-        <li><a href="/learn/nostr">Nostr</a></li>
-        <li><a href="/learn/keys">Claves</a></li>
-        <li><a href="/learn/messaging">Mensajería</a></li>
-        <li><a href="/learn/architecture">Arquitectura</a></li>
-        <li><a href="/fb/send">Enviar</a></li>
-        <li><a href="/fb/receive">Recibir</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main class="main-content">
-    <h1>¿Qué es Nostr y cómo funciona?</h1>
-    <p><strong>Nostr</strong> (Notes and Other Stuff Transmitted by Relays) es un protocolo abierto y descentralizado para mensajería y redes sociales. No hay un servidor central: los usuarios se conectan a <strong>relays</strong> independientes.</p>
-    <h2>Componentes Principales</h2>
-    <h3>Relays</h3>
-    <p>Los relays son servidores que almacenan y reenvían mensajes. Cualquiera puede ejecutar un relay.</p>
-    <h3>Eventos</h3>
-    <p>Todo en Nostr es un <strong>evento</strong>. Cada evento tiene un tipo (kind), un autor (clave pública), contenido, y una firma digital.</p>
-    <h3>Claves</h3>
-    <p>Cada usuario tiene un par de claves. La clave pública es tu identidad. La clave privada es tu contraseña maestra.</p>
-    <h2>Flujo de Mensajes</h2>
-    <pre>Cliente A → Relay → Cliente B</pre>
-    <h2>KeyChat y Nostr</h2>
-    <p>KeyChat es un relay Nostr completo. Puedes conectarte con cualquier cliente Nostr (Damus, Amethyst) y usar la interfaz FreeBasics sin JavaScript.</p>
-    <h2>NIPs Implementados</h2>
-    <ul>
-      <li><strong>NIP-01</strong>: Protocolo básico WebSocket</li>
-      <li><strong>NIP-17</strong>: Mensajería privada cifrada</li>
-      <li><strong>NIP-44</strong>: Cifrado ChaCha20-Poly1305</li>
-    </ul>
-    <div class="page-nav">
-      <a href="/learn/crypto">← Anterior: Criptografía</a>
-      <a href="/learn/keys">Siguiente: Generación de Claves →</a>
-    </div>
-  </main>
-  <footer class="site-footer">
-    <p>KeyChat — Proyecto educativo de criptografía asimétrica y mensajería Nostr</p>
-    <p><a href="/">Inicio</a> | <a href="/fb/send">Enviar mensaje</a> | <a href="/fb/receive">Recibir mensajes</a></p>
-  </footer>
-</body>
-</html>
+{{define "title"}}Nostr — KeyChat{{end}}
+{{define "content"}}
+<h1>¿Qué es Nostr y cómo funciona?</h1>
+<p><strong>Nostr</strong> (Notes and Other Stuff Transmitted by Relays) es un protocolo abierto y descentralizado para mensajería y redes sociales. No hay un servidor central: los usuarios se conectan a <strong>relays</strong> independientes.</p>
+<h2>Componentes Principales</h2>
+<h3>Relays</h3>
+<p>Los relays son servidores que almacenan y reenvían mensajes. Cualquiera puede ejecutar un relay.</p>
+<h3>Eventos</h3>
+<p>Todo en Nostr es un <strong>evento</strong>. Cada evento tiene un tipo (kind), un autor (clave pública), contenido, y una firma digital.</p>
+<h3>Claves</h3>
+<p>Cada usuario tiene un par de claves. La clave pública es tu identidad. La clave privada es tu contraseña maestra.</p>
+<h2>Flujo de Mensajes</h2>
+<pre>Cliente A → Relay → Cliente B</pre>
+<h2>KeyChat y Nostr</h2>
+<p>KeyChat es un relay Nostr completo. Puedes conectarte con cualquier cliente Nostr (Damus, Amethyst) y usar la interfaz FreeBasics sin JavaScript.</p>
+<h2>NIPs Implementados</h2>
+<ul>
+  <li><strong>NIP-01</strong>: Protocolo básico WebSocket</li>
+  <li><strong>NIP-17</strong>: Mensajería privada cifrada</li>
+  <li><strong>NIP-44</strong>: Cifrado ChaCha20-Poly1305</li>
+</ul>
+<div class="page-nav">
+  <a href="/learn/crypto">← Anterior: Criptografía</a>
+  <a href="/learn/keys">Siguiente: Generación de Claves →</a>
+</div>
+{{end}}
