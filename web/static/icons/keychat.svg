@@ -1,8 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="96" fill="#0055cc"/>
-  <circle cx="220" cy="260" r="100" fill="none" stroke="#fff" stroke-width="28"/>
-  <line x1="290" y1="190" x2="400" y2="80" stroke="#fff" stroke-width="28" stroke-linecap="round"/>
-  <line x1="340" y1="180" x2="430" y2="270" stroke="#fff" stroke-width="28" stroke-linecap="round"/>
-  <line x1="400" y1="260" x2="440" y2="220" stroke="#fff" stroke-width="22" stroke-linecap="round"/>
-  <rect x="165" y="310" width="110" height="40" rx="8" fill="#fff"/>
+  <rect width="512" height="512" rx="64" fill="#0a0a0f"/>
+  <rect x="16" y="16" width="480" height="480" rx="56" fill="none" stroke="#00ff41" stroke-width="12"/>
+  <!-- Key shaft -->
+  <rect x="160" y="240" width="160" height="32" rx="4" fill="#00ff41"/>
+  <!-- Key bow (circle) -->
+  <circle cx="160" cy="256" r="48" fill="none" stroke="#00ff41" stroke-width="16"/>
+  <!-- Key teeth -->
+  <rect x="300" y="240" width="20" height="24" rx="2" fill="#0a0a0f"/>
+  <rect x="300" y="240" width="20" height="24" rx="2" fill="none" stroke="#00ff41" stroke-width="8"/>
+  <rect x="300" y="272" width="16" height="16" rx="2" fill="none" stroke="#00ff41" stroke-width="8"/>
+  <!-- Chat bubble (overlapping) -->
+  <path d="M 380 180 Q 380 140 430 140 L 480 140 Q 520 140 520 180 L 520 240 Q 520 280 480 280 L 440 280 L 440 320 L 400 280 L 380 280 Q 380 280 380 240 Z" fill="none" stroke="#00ff41" stroke-width="12" stroke-linejoin="round"/>
+  <line x1="420" y1="190" x2="490" y2="190" stroke="#00ff41" stroke-width="10" stroke-linecap="round"/>
+  <line x1="420" y1="230" x2="470" y2="230" stroke="#00ff41" stroke-width="10" stroke-linecap="round"/>
 </svg>
